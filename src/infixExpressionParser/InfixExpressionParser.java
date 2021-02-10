@@ -59,6 +59,7 @@ public class InfixExpressionParser {
 	
 		//System.out.println(infixToPostFix(evaluationFinal));
 	
+	//Method to establish precedence of an operator
 	public static int precedence(String operator) {
 		if (operator.equals("^")) { return 7; }
 		if (operator.equals("*") || operator.equals("/") || operator.equals("%")) { return 6; }
@@ -70,6 +71,7 @@ public class InfixExpressionParser {
 		throw new IllegalArgumentException(String.format("Operator %s is not supported.", operator));
 	}
 	
+	//Infix to postfix converter used in lecture 3
 	public static String infixToPostFix(String infixExp) {
 		Scanner scanner = new Scanner(infixExp);
 		Stack<String> stack = new Stack<>();
@@ -112,4 +114,47 @@ public class InfixExpressionParser {
 		scanner.close();
 		return postfixExp.toString();
 	}
+	
+	public static int evalPostfix(String express) { 
+		Stack<Integer> st = new Stack<>(); 
+	          
+	    for(int i=0; i < express.length(); i++) { 
+	    	char ch = express.charAt(i); 
+	             
+	        if(Character.isDigit(ch))
+	        	st.push(ch - '0'); 
+	              
+	        else {
+	        	int value1 = st.pop(); 
+	            int value2 = st.pop(); 
+	                  
+	            switch(ch) { 
+	            	case '+': 
+	                st.push(value2 + value1); 
+	                break; 
+	                      
+	                case '-': 
+	                st.push(value2 - value1); 
+	                break; 
+	                        
+	                case '*': 
+	                st.push(value2*value1); 
+	                break;
+	                
+	                case '/': 
+	                st.push(value2/value1); 
+	                break;
+	                
+	                case '^': 
+		                st.push(value2 ^ value1); 
+		                break;
+		            
+	                case '%': 
+		                st.push(value2%value1); 
+		                break;
+	              } 
+	            } 
+	        } 
+	        return st.pop(); 
+	    } 
 }
