@@ -50,7 +50,9 @@ public class InfixExpressionParser {
 				    count++;
 				}
 			}
-			System.out.println(infixToPostFix(evaluationFinal));
+			String postFix = infixToPostFix(evaluationFinal);
+			int solution = evalPostfix(postFix);
+			System.out.println(solution);
 			evaluationFinal = "";
 		}
 		fileReader.close();
@@ -146,12 +148,122 @@ public class InfixExpressionParser {
 	                break;
 	                
 	                case '^': 
-		                st.push(value2 ^ value1); 
+	                	st.push((int) Math.pow(value2, value1)); 
 		                break;
 		            
 	                case '%': 
 		                st.push(value2%value1); 
 		                break;
+	                
+	                case '>':
+	                	//Find if its >= or not and make sure its not at the end of the string
+	                	if (i != express.length() - 1 && express.charAt(i+1) == '=') {
+	                		
+	                		if (value2 >= value1) {
+	                			st.push(1);
+	                		}
+	                		else {
+	                			st.push(0);
+	                		}
+	                		
+	                		//Move i forward one to pass the '='
+	                		i = i + 1;
+	                	}
+	                	else {
+	                		if (value2 > value1) {
+	                			st.push(1);
+	                		}
+	                		else {
+	                			st.push(0);
+	                		}
+	                		
+	                	}
+	                	break;
+	                
+	                case '<':
+	                	//Find if its <= or not and make sure its not at the end of the string
+	                	if (i != express.length() - 1 && express.charAt(i+1) == '=') {
+	                		
+	                		if (value2 <= value1) {
+	                			st.push(1);
+	                		}
+	                		else {
+	                			st.push(0);
+	                		}
+	                		
+	                		//Move i forward one to pass the '='
+	                		i = i + 1;
+	                	}
+	                	else {
+	                		if (value2 < value1) {
+	                			st.push(1);
+	                		}
+	                		else {
+	                			st.push(0);
+	                		}
+	                		
+	                	}
+	                	break;
+	                	
+	                case '!':
+	                	
+	                	if (i != express.length() - 1 && express.charAt(i+1) == '=') {
+	                		if (value2 != value1) {
+	                			st.push(1);
+	                		}
+	                		else {
+	                			st.push(0);
+	                		}
+	                		//Move i forward one to pass the '='
+	                		i = i+1;
+	                	}
+	                	
+	                	break;
+	                
+	                case '=':
+	                	if (i != express.length() - 1 && express.charAt(i+1) == '=') {
+	                		if (value2 == value1) {
+	                			st.push(1);
+	                		}
+	                		else {
+	                			st.push(0);
+	                		}
+	                		
+	                		//Move i forward one to pass the '='
+	                		i = i+1;
+	                	}
+	                	
+	                	break;
+	                
+	                case '&':
+	                	if (i != express.length() - 1 && express.charAt(i+1) == '&') {
+	                		if (value2 == 1 && value1 == 1) {
+	                			st.push(1);
+	                		}
+	                		else {
+	                			st.push(0);
+	                		}
+	                		
+	                		//Move i forward one to pass the '&'
+	                		i = i+1;
+	                	}
+	                	break;
+	                	
+	                	
+	                case '|':
+	                	if (i != express.length() - 1 && express.charAt(i+1) == '|') {
+	                		if (value2 == 1 && value1 == 1 || value2 == 1 && value1 == 0 || value2 == 0 && value1 == 1 ) {
+	                			st.push(1);
+	                		}
+	                		
+	                		else {
+	                			st.push(0);
+	                		}
+	                		
+	                		//Move i forward one to pass the '|'
+	                		i = i+1;
+	                	}
+	                	break;
 	              } 
 	            } 
 	        } 
